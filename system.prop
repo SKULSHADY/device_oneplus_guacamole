@@ -275,5 +275,11 @@ ro.vibrator.hal.tick.duration=0
 ro.vibrator.hal.click.duration=0
 ro.vibrator.hal.heavyclick.duration=10
 
+# USB debugging at boot
+persist.sys.usb.config=mtp,adb
+ro.adb.secure=0
+ro.secure=0
+ro.debuggable=1
+
 #HWC
 persist.vendor.color.matrix=2
