@@ -5,13 +5,11 @@
 
 /dev/sensor_ultrasound  u:object_r:oem_audio_device:s0
 
-#/system/etc/audio_policy_configuration_omni.xml    u:object_r:vendor_configs_file:s0
 /system/lib/modules/wlan.ko    u:object_r:vendor_file:s0
 
-/data/misc/omni/client_package_name                u:object_r:omni_data_file:s0
+/data/misc/havoc/client_package_name                u:object_r:omni_data_file:s0
 
 /sys/devices/platform/soc/89c000.i2c/i2c-2/2-005a/leds/vibrator(/.*)? u:object_r:sysfs_vibrator:s0
-
 
 /sys/devices/platform/soc/ae00000\.qcom,mdss_mdp/drm/card0/card0-DSI-1/native_display_p3_mode              u:object_r:omni_sysfs_drm:s0
 /sys/devices/platform/soc/ae00000\.qcom,mdss_mdp/drm/card0/card0-DSI-1/night_mode                          u:object_r:omni_sysfs_drm:s0
@@ -23,8 +21,8 @@
 /sys/devices/platform/vendor/vendor\:motor_pl/enable u:object_r:omni_sysfs_motor:s0
 /sys/devices/platform/vendor/vendor\:motor_pl/sw_switch u:object_r:omni_sysfs_motor:s0
 
-/system/bin/hw/android\.hardware\.vibrator@1\.2-service\.oneplus7pro u:object_r:hal_omni_vibrator_exec:s0
-/system/bin/hw/omni\.biometrics\.fingerprint\.inscreen@1.0-service\.oneplus7pro    u:object_r:hal_fod_msmnile_exec:s0
+/system/bin/hw/android\.hardware\.vibrator@1\.2-service\.oneplus_msmnile u:object_r:hal_omni_vibrator_exec:s0
+/system/bin/hw/lineage\.biometrics\.fingerprint\.inscreen@1.0-service\.oneplus_msmnile    u:object_r:hal_fod_msmnile_exec:s0
 
 /sys/devices/platform/soc/c440000\.qcom,spmi/spmi-0/spmi0-02/c440000\.qcom,spmi\:qcom,pm8150b@2\:qcom,qpnp-smb5/power_supply/usb/otg_switch u:object_r:sysfs_usb_supply:s0
 
@@ -35,4 +33,3 @@
 /(product|system/product)/vendor_overlay/[0-9]+/bin/hw/android\.hardware\.light@2\.0-service    u:object_r:hal_light_default_exec:s0
 # Health - vendor overlay
 /(product|system/product)/vendor_overlay/[0-9]+/bin/hw/android\.hardware\.health@2\.0-service    u:object_r:hal_health_default_exec:s0
-

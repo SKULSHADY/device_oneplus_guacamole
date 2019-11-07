@@ -18,11 +18,12 @@
 # device-specific aspects (drivers) with a device-agnostic
 # product configuration (apps).
 #
-BOARD_PATH := device/oneplus/oneplus7pro
+
+BOARD_PATH := device/oneplus/guacamole
 include $(BOARD_PATH)/BoardConfigGsi.mk
 
 PRODUCT_SOONG_NAMESPACES := $(BOARD_PATH)
-TARGET_INIT_VENDOR_LIB := //$(BOARD_PATH):libinit_oneplus7pro
+TARGET_INIT_VENDOR_LIB := //$(BOARD_PATH):libinit_oneplus_msmnile
 PRODUCT_FULL_TREBLE := true
 BOARD_VNDK_VERSION := current
 BOARD_VNDK_RUNTIME_DISABLE := false
@@ -42,21 +43,14 @@ BOARD_USES_METADATA_PARTITION := true
 
 # Enable A/B update
 TARGET_NO_RECOVERY := true
-ifeq ($(TARGET_DEVICE),oneplus7pro)
 BOARD_BUILD_SYSTEM_ROOT_IMAGE := true
-endif
 BOARD_USES_RECOVERY_AS_BOOT := true
 
 TARGET_NO_BOOTLOADER := true
-ifeq ($(TARGET_DEVICE),oneplus7pro)
 TARGET_OTA_ASSERT_DEVICE := OnePlus7Pro
-endif
 TARGET_KERNEL_VERSION := 4.14
 TARGET_KERNEL_CLANG_COMPILE := true
-#TARGET_KERNEL_CLANG_VERSION := 4.0.2
-#TARGET_KERNEL_CLANG_PATH := "./vendor/qcom/sdclang/8.0/prebuilt/linux-x86_64"
 TARGET_BOOTLOADER_BOARD_NAME := msmnile
-#TARGET_PLATFORM_DEVICE_BASE := /devices/soc.0/
 
 # Platform
 TARGET_BOARD_PLATFORM := msmnile
@@ -83,8 +77,6 @@ ENABLE_CPUSETS := true
 ENABLE_SCHEDBOOST := true
 
 BOARD_KERNEL_CMDLINE := androidboot.hardware=qcom androidboot.console=ttyMSM0 androidboot.memcg=1 lpm_levels.sleep_disabled=1 video=vfb:640x400,bpp=32,memsize=3072000 msm_rtb.filter=0x237 service_locator.enable=1 swiotlb=2048 firmware_class.path=/vendor/firmware_mnt/image loop.max_part=7 androidboot.usbcontroller=a600000.dwc3
-#BOARD_KERNEL_CMDLINE += androidboot.avb_version=1.0 androidboot.vbmeta.avb_version=1.0
-#BOARD_KERNEL_CMDLINE += androidboot.selinux=permissive
 BOARD_KERNEL_BASE := 0x00000000
 BOARD_KERNEL_PAGESIZE := 4096
 BOARD_KERNEL_TAGS_OFFSET := 0x01E00000
@@ -93,19 +85,16 @@ BOARD_ROOT_EXTRA_FOLDERS += op1 op2
 BOARD_ROOT_EXTRA_SYMLINKS := /vendor/dsp:/dsp /vendor/firmware_mnt:/firmware /mnt/vendor/persist:/persist
 TARGET_KERNEL_ARCH := arm64
 TARGET_KERNEL_HEADER_ARCH := arm64
-#TARGET_KERNEL_CROSS_COMPILE_PREFIX := aarch64-linux-android-
 BOARD_KERNEL_IMAGE_NAME := Image-dtb
 TARGET_KERNEL_SOURCE := kernel/oneplus/sm8150
-TARGET_KERNEL_CONFIG := vendor/omni_oneplus7pro_defconfig
+TARGET_KERNEL_CONFIG := vendor/sm8150-perf_defconfig
 BOARD_KERNEL_SEPARATED_DTBO := true
 
-# partitions
-ifeq ($(TARGET_DEVICE),oneplus7pro)
+# Partitions
 BOARD_SYSTEMIMAGE_PARTITION_SIZE := 3221225472
 BOARD_ODMIMAGE_PARTITION_SIZE := 67108864
 BOARD_VENDORIMAGE_PARTITION_SIZE := 1073741824
 BOARD_BOOTIMAGE_PARTITION_SIZE := 0x06000000
-endif
 BOARD_USERDATAIMAGE_PARTITION_SIZE := 19327352832
 BOARD_PERSISTIMAGE_PARTITION_SIZE := 33554432
 BOARD_METADATAIMAGE_PARTITION_SIZE := 16777216
@@ -115,11 +104,7 @@ BOARD_PERSISTIMAGE_FILE_SYSTEM_TYPE := ext4
 BOARD_FLASH_BLOCK_SIZE := 131072 # (BOARD_KERNEL_PAGESIZE * 64)
 BOARD_SYSTEMIMAGE_FILE_SYSTEM_TYPE := ext4
 
-#File system for ODM
-#TARGET_COPY_OUT_ODM := odm
-#BOARD_ODMIMAGE_FILE_SYSTEM_TYPE := ext4
-
-# global
+# Global
 TARGET_SPECIFIC_HEADER_PATH := $(BOARD_PATH)/include
 BOARD_USES_QCOM_HARDWARE := true
 TARGET_USES_QCOM_BSP := false
@@ -131,7 +116,7 @@ TARGET_USES_MKE2FS := true
 # Generic AOSP image always requires separate vendor.img
 TARGET_COPY_OUT_VENDOR := vendor
 
-# Generic AOSP image does NOT support HWC1
+# Display
 TARGET_USES_HWC2 := true
 TARGET_FORCE_HWC_FOR_VIRTUAL_DISPLAYS := true
 MAX_VIRTUAL_DISPLAY_DIMENSION := 4096
@@ -142,12 +127,9 @@ TARGET_HAS_WIDE_COLOR_DISPLAY := true
 TARGET_HAS_HDR_DISPLAY := true
 TARGET_USES_DISPLAY_RENDER_INTENTS := true
 
-#VSYNC_EVENT_PHASE_OFFSET_NS := 2000000
-#SF_VSYNC_EVENT_PHASE_OFFSET_NS := 6000000
-
 BOARD_FLASH_BLOCK_SIZE := 512
 
-#Audio
+# Audio
 USE_XML_AUDIO_POLICY_CONF := 1
 AUDIO_FEATURE_ENABLED_USB_TUNNEL_AUDIO := true
 AUDIO_FEATURE_ENABLED_ALAC_OFFLOAD := true
@@ -188,7 +170,7 @@ TARGET_USES_QCOM_MM_AUDIO := true
 USE_CUSTOM_AUDIO_POLICY := 1
 AUDIO_FEATURE_ENABLED_RECORD_PLAY_CONCURRENCY := true
 
-#Modules
+# Modules
 NEED_KERNEL_MODULE_SYSTEM := true
 
 # Camera
@@ -202,11 +184,7 @@ BOARD_SUPPRESS_SECURE_ERASE := true
 # Bluetooth
 BOARD_HAVE_BLUETOOTH := true
 BOARD_HAVE_BLUETOOTH_QCOM := true
-
-#SEPERATE FROM OP6T
-ifeq ($(TARGET_DEVICE),oneplus7pro)
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(BOARD_PATH)/bluetooth
-endif
 
 # Wifi
 TARGET_USES_QCOM_WCNSS_QMI       := false
@@ -231,7 +209,7 @@ WIFI_HIDL_FEATURE_DUAL_INTERFACE := true
 CONFIG_ACS := true
 CONFIG_IEEE80211AC := true
 
-# charger
+# Charger
 HEALTHD_USE_BATTERY_INFO := true
 BOARD_CHARGER_ENABLE_SUSPEND := true
 BOARD_CHARGER_DISABLE_INIT_BLANK := true
@@ -244,22 +222,17 @@ TARGET_USES_NQ_NFC := true
 TARGET_USES_PREBUILT_ANT := true
 BOARD_ANT_WIRELESS_DEVICE := "qualcomm-hidl"
 
-#vold
+# Vold
 TARGET_KERNEL_HAVE_NTFS := true
 TARGET_KERNEL_HAVE_EXFAT := true
 
 # CNE and DPM
 BOARD_USES_QCNE := true
 
-ifeq ($(TARGET_DEVICE),oneplus7pro)
 TARGET_SYSTEM_PROP += $(BOARD_PATH)/system.prop
-endif
 BOARD_PROPERTY_OVERRIDES_SPLIT_ENABLED := true
 
-# selinux
-#include device/qcom/sepolicy/sepolicy.mk
-include vendor/omni/sepolicy/sepolicy.mk
-#BOARD_SEPOLICY_DIRS += $(BOARD_PATH)/sepolicy/qcom
+# SELinux
 BOARD_SEPOLICY_DIRS += build/target/board/generic_arm64_ab/sepolicy
 BOARD_PLAT_PUBLIC_SEPOLICY_DIR += $(BOARD_PATH)/sepolicy/public
 BOARD_PLAT_PRIVATE_SEPOLICY_DIR += $(BOARD_PATH)/sepolicy/private
@@ -273,18 +246,15 @@ BOARD_PLAT_PRIVATE_SEPOLICY_DIR += \
 
 BOARD_SECCOMP_POLICY += $(BOARD_PATH)/seccomp_policy
 
-# for offmode charging
+# Offline charging
 BOARD_USE_CUSTOM_RECOVERY_FONT := \"roboto_23x41.h\"
-ifeq ($(TARGET_DEVICE),oneplus7pro)
 TARGET_RECOVERY_FSTAB := $(BOARD_PATH)/recovery.fstab
-endif
 
 TARGET_USES_ION := true
 TARGET_USES_NEW_ION_API :=true
 TARGET_USES_QCOM_BSP := false
 
-TARGET_INCLUDE_STOCK_ARCORE := true
-
 DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE += $(BOARD_PATH)/vendor_framework_compatibility_matrix.xml
+
 # HIDL
 DEVICE_FRAMEWORK_MANIFEST_FILE += $(BOARD_PATH)/framework_manifest.xml

@@ -40,7 +40,7 @@
 #define DC_DIM_PATH "/sys/class/drm/card0-DSI-1/dimlayer_bl_en"
 
 namespace vendor {
-namespace omni {
+namespace lineage {
 namespace biometrics {
 namespace fingerprint {
 namespace inscreen {
@@ -144,7 +144,7 @@ Return<bool> FingerprintInscreen::handleAcquired(int32_t acquiredInfo, int32_t v
 }
 
 Return<bool> FingerprintInscreen::handleError(int32_t error, int32_t vendorCode) {
-   return error == FINGERPRINT_ERROR_VENDOR && vendorCode == 6;
+    return error == FINGERPRINT_ERROR_VENDOR && vendorCode == 6;
 }
 
 Return<void> FingerprintInscreen::setLongPressEnabled(bool enabled) {
@@ -191,5 +191,5 @@ Return<int32_t> FingerprintInscreen::getSize() {
 }  // namespace inscreen
 }  // namespace fingerprint
 }  // namespace biometrics
-}  // namespace omni
+}  // namespace lineage
 }  // namespace vendor

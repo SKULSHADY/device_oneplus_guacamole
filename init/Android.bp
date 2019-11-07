@@ -1,5 +1,5 @@
 cc_library_static {
-    name: "libinit_oneplus7pro",
+    name: "libinit_oneplus_msmnile",
 
     include_dirs: [
         "system/core/base/include",
@@ -8,7 +8,7 @@ cc_library_static {
     cflags: [
         "-Wall",
     ],
-    srcs: ["init_oneplus7pro.cpp"],
+    srcs: ["init_oneplus_msmnile.cpp"],
     recovery_available: true,
 }
 

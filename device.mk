@@ -19,11 +19,12 @@
 # device-specific aspects (drivers) with a device-agnostic
 # product configuration (apps).
 #
+
 PRODUCT_PACKAGES += com.android.apex.cts.shim.v1_prebuilt
 TARGET_FLATTEN_APEX := false
 
 PRODUCT_PACKAGES += \
-    libinit_oneplus7pro
+    libinit_oneplus_msmnile
 
 PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
     ro.build.version.all_codenames=$(PLATFORM_VERSION_ALL_CODENAMES) \
@@ -56,7 +57,6 @@ PRODUCT_HOST_PACKAGES += \
 PRODUCT_PACKAGES_DEBUG += \
     bootctl
 
-# Boot control
 PRODUCT_PACKAGES += \
     android.hardware.boot@1.0-impl.recovery \
     bootctrl.msmnile.recovery \
@@ -66,33 +66,23 @@ PRODUCT_PACKAGES_DEBUG += \
     update_engine_client
 
 PRODUCT_PACKAGES += \
-    omni_charger_res_images \
+    havoc_charger_res_images \
     animation.txt \
     font_charger.png
 
 PRODUCT_PACKAGES += \
     com.android.future.usb.accessory
 
-# Live Wallpapers
-PRODUCT_PACKAGES += \
-    LiveWallpapers \
-    LiveWallpapersPicker \
-    VisualizationWallpapers \
-    librs_jni
-
 # Permissions
 PRODUCT_COPY_FILES += \
-    frameworks/native/data/etc/android.software.verified_boot.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/permissions/android.software.verified_boot.xml
+    frameworks/native/data/etc/android.software.verified_boot.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/permissions/android.software.verified_boot.xml \
+    vendor/havoc/config/permissions/vendor.lineage.biometrics.fingerprint.inscreen.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/permissions/vendor.lineage.biometrics.fingerprint.inscreen.xml
 
 # Prebuilt
 PRODUCT_COPY_FILES += \
-    $(call find-copy-subdir-files,*,device/oneplus/oneplus7pro/prebuilt/system,system) \
-    $(call find-copy-subdir-files,*,device/oneplus/oneplus7pro/prebuilt/root,root)
-
-ifeq ($(TARGET_DEVICE),oneplus7pro)
-PRODUCT_COPY_FILES += \
-    $(call find-copy-subdir-files,*,device/oneplus/oneplus7pro/prebuilt/product,system/product)
-endif
+    $(call find-copy-subdir-files,*,device/oneplus/guacamole/prebuilt/product,system/product) \
+    $(call find-copy-subdir-files,*,device/oneplus/guacamole/prebuilt/root,root) \
+    $(call find-copy-subdir-files,*,device/oneplus/guacamole/prebuilt/system,system)
 
 PRODUCT_AAPT_CONFIG := xxxhdpi
 PRODUCT_AAPT_PREF_CONFIG := xxxhdpi
@@ -101,8 +91,8 @@ PRODUCT_CHARACTERISTICS := nosdcard
 # Lights & Health
 PRODUCT_PACKAGES += \
     libhealthd.msm \
-    android.hardware.health@2.0-service.oneplus7pro \
-    android.hardware.light@2.0-service.oneplus7pro
+    android.hardware.health@2.0-service.oneplus_msmnile \
+    android.hardware.light@2.0-service.oneplus_msmnile
 
 PRODUCT_COPY_FILES += \
     frameworks/av/media/libstagefright/data/media_codecs_google_audio.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/media_codecs_google_audio.xml \
@@ -111,7 +101,7 @@ PRODUCT_COPY_FILES += \
 
 # Camera
 PRODUCT_PACKAGES += \
-    SnapdragonCamera2
+    Camera2
 
 # ANT+
 PRODUCT_PACKAGES += \
@@ -158,7 +148,7 @@ PRODUCT_PACKAGES += \
     vendor.qti.hardware.systemhelper@1.1 \
     vendor.qti.hardware.bluetooth_dun@1.0
 
-#Nfc
+# NFC
 PRODUCT_PACKAGES += \
     android.hardware.nfc@1.0 \
     android.hardware.nfc@1.1 \
@@ -172,7 +162,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     libtinyalsa
 
-
 # TODO(b/78308559): includes vr_hwc into GSI before vr_hwc move to vendor
 PRODUCT_PACKAGES += \
     vr_hwc
@@ -183,15 +172,12 @@ PRODUCT_COPY_FILES += \
     frameworks/av/media/libstagefright/data/media_codecs_google_video.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/media_codecs_google_video.xml
 
 PRODUCT_PACKAGES += \
-    OmniDisplayManager
-
-PRODUCT_PACKAGES += \
     vendor.qti.hardware.wifi@1.0 \
-    android.hardware.vibrator@1.2-service.oneplus7pro
+    android.hardware.vibrator@1.2-service.oneplus_msmnile
 
 # Fingerprint
 PRODUCT_PACKAGES += \
-    omni.biometrics.fingerprint.inscreen@1.0-service.oneplus7pro
+    vendor.lineage.biometrics.fingerprint.inscreen@1.0-service.oneplus_msmnile
 
 # Remove unwanted packages
 PRODUCT_PACKAGES += \
@@ -203,10 +189,9 @@ PRODUCT_BOOT_JARS += \
     WfdCommon \
     qcnvitems
 
-
 # Video seccomp policy files
 PRODUCT_COPY_FILES += \
-    device/oneplus/oneplus7pro/seccomp/codec2.software.ext.policy:$(TARGET_COPY_OUT)/etc/seccomp_policy/codec2.software.ext.policy
+    device/oneplus/guacamole/seccomp/codec2.software.ext.policy:$(TARGET_COPY_OUT)/etc/seccomp_policy/codec2.software.ext.policy
 
 # Temporary handling
 #
@@ -214,11 +199,10 @@ PRODUCT_COPY_FILES += \
 # does not exist as they are mutually exclusive.  Once all target's android_filesystem_config.h
 # have been removed, TARGET_FS_CONFIG_GEN should be made unconditional.
 DEVICE_CONFIG_DIR := $(dir $(firstword $(subst ]],, $(word 2, $(subst [[, ,$(_node_import_context))))))
-ifeq ($(wildcard device/oneplus/oneplus7pro/android_filesystem_config.h),)
-  TARGET_FS_CONFIG_GEN := device/oneplus/oneplus7pro/config.fs
+ifeq ($(wildcard device/oneplus/guacamole/android_filesystem_config.h),)
+  TARGET_FS_CONFIG_GEN := device/oneplus/guacamole/config.fs
 else
   $(warning **********)
   $(warning TODO: Need to replace legacy $(DEVICE_CONFIG_DIR)android_filesystem_config.h with config.fs)
   $(warning **********)
 endif
-

@@ -16,7 +16,7 @@
 
 
 cc_library {
-    name: "libgptutils.oneplus7pro",
+    name: "libgptutils.oneplus_msmnile",
     vendor: true,
     recovery_available: true,
     shared_libs: [
